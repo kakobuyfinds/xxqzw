@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="description" content="Explore the LoveGoBuy spreadsheet with CAFANS product listings, estimated USD prices, category filters and a downloadable shortlist.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="LoveGoBuy spreadsheet | CAFANS Product Finds">
+  <meta property="og:description" content="Filter shoes, hoodies and tees, then download your shortlist to compare costs and check sizing.">
+  <meta name="theme-color" content="#142b23">
+  <title>LoveGoBuy spreadsheet | CAFANS Product Finds</title>
+  <!--
+    File: index.html
+    Catalog source: https://cafans.com/ (featured listings and estimated USD prices).
+    Search review: https://lovegobuyguide.com/ uses a searchable QC catalog and dated records.
+    https://lovegobuy.io/ displays categories and estimated currency values.
+    https://lovegobuypicklist.com/ offers searchable categories and detail pages.
+    This page adds a downloadable shortlist and a checklist for variant sizing and landed cost.
+    Search result order varies by location, device and time.
+    Indexing status: pending deployment and submission. No public URL was supplied.
+    After deployment, add a self-referencing canonical pointing to the final public URL.
+    Submit that URL through Google Search Console URL Inspection and Bing Webmaster Tools.
+    Google: https://support.google.com/webmasters/answer/9012289
+    Bing: https://www.bing.com/webmasters/help/url-inspection-55a30305
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "LoveGoBuy spreadsheet",
+    "description": "An independent product directory featuring CAFANS listings and a buying checklist.",
+    "inLanguage": "en",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Leather Slides","url":"https://cafans.com/goods-158791.html"},
+        {"@type":"ListItem","position":2,"name":"Platform Slides","url":"https://cafans.com/goods-158790.html"},
+        {"@type":"ListItem","position":3,"name":"Sweatshirt","url":"https://cafans.com/goods-158792.html"},
+        {"@type":"ListItem","position":4,"name":"Thug Club - Rock Hoodie","url":"https://cafans.com/goods-158280.html"},
+        {"@type":"ListItem","position":5,"name":"Unisex Embroidered Oversized T-Shirt","url":"https://cafans.com/goods-158200.html"}
+      ]
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #142b23;
+      --muted: #455b51;
+      --paper: #f5f6ef;
+      --line: #d6dfd5;
+      --lime: #def29b;
+      font-family: system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); line-height: 1.55; }
+    a { color: inherit; text-underline-offset: .2em; }
+    :focus-visible { outline: 3px solid #527e32; outline-offset: 4px; }
+    .wrap { width: min(66rem, calc(100% - 2rem)); margin-inline: auto; }
+    .hero {
+      color: white;
+      background: radial-gradient(ellipse at 50% 115%, #345f40, transparent 65%), var(--ink);
+      text-align: center;
+      padding: clamp(3.5rem, 10vw, 8rem) 0;
+    }
+    .hero h1 { margin: 0; font-size: clamp(2.4rem, 7vw, 5rem); line-height: 1.05; letter-spacing: -.06em; }
+    .hero p { max-width: 41rem; margin: 1.2rem auto; color: #e0eadc; }
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 1.75rem; }
+    .button {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 44px;
+      padding: .55rem 1.1rem;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 650;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .primary { background: var(--lime); color: var(--ink); border-color: var(--lime); }
+    .hero a:focus-visible { outline-color: white; }
+    main { padding-block: 3rem; }
+    section + section { margin-top: 3rem; }
+    h2 { margin: 0 0 .5rem; font-size: clamp(1.65rem, 4vw, 2.6rem); line-height: 1.15; letter-spacing: -.045em; }
+    h3 { margin: 0 0 .4rem; font-size: 1.05rem; }
+    .muted, small { color: var(--muted); }
+    .center { text-align: center; }
+    .filters { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: .75rem; margin-top: 1.5rem; }
+    .filters[hidden], .button[hidden] { display: none; }
+    label { font-weight: 650; }
+    input, select {
+      display: block;
+      width: 100%;
+      margin-top: .3rem;
+      min-height: 44px;
+      border: 1px solid #849689;
+      border-radius: .6rem;
+      background: white;
+      color: var(--ink);
+      padding: .5rem;
+      font: inherit;
+    }
+    .catalog { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .9rem; }
+    .card, .note, details { background: white; border: 1px solid var(--line); border-radius: .9rem; padding: 1.1rem; }
+    .card { display: flex; flex-direction: column; align-items: start; }
+    .card[hidden] { display: none; }
+    .card p { margin: .25rem 0 .6rem; }
+    .card .price { margin-top: auto; font-weight: 700; }
+    .card a { min-height: 44px; display: inline-flex; align-items: center; }
+    .download { margin-top: 1rem; }
+    .note { margin-top: 1rem; }
+    details { margin-top: .65rem; }
+    summary { cursor: pointer; font-weight: 700; }
+    details p { margin-bottom: 0; }
+    footer { padding: 1.5rem 0; border-top: 1px solid var(--line); text-align: center; }
+    @media (max-width: 46rem) {
+      .catalog, .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .filters label:first-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 29rem) {
+      .catalog, .filters { grid-template-columns: 1fr; }
+    }
+  </style>
+<link rel="canonical" href="https://kakobuyfinds.github.io/xxqzw/">
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <h1>LoveGoBuy spreadsheet</h1>
+      <p>Compare shoes, hoodies and tees from CAFANS. Filter by category, check estimated USD prices and save a shortlist before choosing an exact size or color.</p>
+      <nav class="actions" aria-label="Shop on CAFANS">
+        <a class="button primary" href="https://cafans.com">LoveGoBuy spreadsheet</a>
+        <a class="button" href="https://cafans.com">Buy it now</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="catalog-title">
+      <h2 class="center" id="catalog-title">CAFANS product directory</h2>
+      <p class="center muted">Prices are estimated item prices in USD. Check current pricing, stock and available options on the listing. Shipping and any applicable fees are separate.</p>
+
+      <form class="filters" id="filters" role="search" aria-label="Filter the product directory" hidden>
+        <label>Search products
+          <input id="query" type="search" placeholder="Try hoodie or slides">
+        </label>
+        <label>Category
+          <select id="category">
+            <option value="">All categories</option>
+            <option>Shoes</option>
+            <option>Hoodies &amp; sweatshirts</option>
+            <option>T-Shirts</option>
+          </select>
+        </label>
+        <label>Sort by
+          <select id="sort">
+            <option value="">Featured</option>
+            <option value="asc">Price: low to high</option>
+            <option value="desc">Price: high to low</option>
+          </select>
+        </label>
+      </form>
+
+      <p id="results" role="status"></p>
+
+      <div class="catalog" id="catalog">
+        <article class="card" data-category="Shoes" data-price="62.36">
+          <p class="muted">Shoes</p>
+          <h3>Leather Slides</h3>
+          <p class="price">$62.36 USD</p>
+          <a href="https://cafans.com/goods-158791.html" aria-label="View Leather Slides on CAFANS">View on CAFANS</a>
+        </article>
+        <article class="card" data-category="Shoes" data-price="46.67">
+          <p class="muted">Shoes</p>
+          <h3>Platform Slides</h3>
+          <p class="price">$46.67 USD</p>
+          <a href="https://cafans.com/goods-158790.html" aria-label="View Platform Slides on CAFANS">View on CAFANS</a>
+        </article>
+        <article class="card" data-category="Hoodies &amp; sweatshirts" data-price="27.50">
+          <p class="muted">Hoodies &amp; sweatshirts</p>
+          <h3>Sweatshirt</h3>
+          <p class="price">$27.50 USD</p>
+          <a href="https://cafans.com/goods-158792.html" aria-label="View Sweatshirt on CAFANS">View on CAFANS</a>
+        </article>
+        <article class="card" data-category="Hoodies &amp; sweatshirts" data-price="37.22">
+          <p class="muted">Hoodies &amp; sweatshirts</p>
+          <h3>Thug Club - Rock Hoodie</h3>
+          <p class="price">$37.22 USD</p>
+          <a href="https://cafans.com/goods-158280.html" aria-label="View Thug Club Rock Hoodie on CAFANS">View on CAFANS</a>
+        </article>
+        <article class="card" data-category="T-Shirts" data-price="32.64">
+          <p class="muted">T-Shirts</p>
+          <h3>Unisex Embroidered Oversized T-Shirt</h3>
+          <p class="price">$32.64 USD</p>
+          <a href="https://cafans.com/goods-158200.html" aria-label="View Unisex Embroidered Oversized T-Shirt on CAFANS">View on CAFANS</a>
+        </article>
+      </div>
+
+      <button class="button download" type="button" id="download" hidden>Download filtered products (CSV)</button>
+    </section>
+
+    <section aria-labelledby="guide-title">
+      <h2 id="guide-title">How to use the LoveGoBuy spreadsheet</h2>
+      <ol>
+        <li><strong>Record the exact option.</strong> Save the product URL, color and size. For shoes, check whether the measurement refers to foot length or insole length. For clothing, compare garment width and length with an item you own.</li>
+        <li><strong>Check the buying options.</strong> Open the CAFANS listing and select LoveGoBuy if it appears under Buy Link. Confirm the item and selected variant on the agent’s order page.</li>
+        <li><strong>Request the shipping estimate.</strong> Use your destination and ask which weight the shipping line charges for. Keep domestic shipping, international shipping and service fees in separate columns.</li>
+        <li><strong>Review warehouse photos if available.</strong> Compare the variant, measurements and visible condition with your order before approving shipment. Check the exchange window before deciding.</li>
+      </ol>
+      <p class="note"><strong>Compare the full cost.</strong> Add the item price, domestic shipping, agent fees, international shipping and any applicable taxes or duties. Compare quotes in the same currency using rates from the same day.</p>
+    </section>
+
+    <section aria-labelledby="faq-title">
+      <h2 id="faq-title">Frequently asked questions</h2>
+      <details>
+        <summary>Do I need Excel to use the directory?</summary>
+        <p>You can browse the products and filter the list in your browser. The CSV opens in Excel, Google Sheets or another spreadsheet app.</p>
+      </details>
+      <details>
+        <summary>Where do the listings and prices come from?</summary>
+        <p>The displayed items and estimated USD prices come from the <a href="https://cafans.com">CAFANS featured product directory</a>. Open the product listing and check your agent’s current quote before ordering.</p>
+      </details>
+      <details>
+        <summary>Where can I check quality-control photos?</summary>
+        <p>Ask the agent whether warehouse inspection photos are available for the order. Use photos of your exact size and color to review the item before shipment.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap"><small>Independent shopping guide featuring product listings from CAFANS.</small></div>
+  </footer>
+
+  <script>
+    (() => {
+      const filters = document.querySelector('#filters');
+      const query = document.querySelector('#query');
+      const category = document.querySelector('#category');
+      const sort = document.querySelector('#sort');
+      const catalog = document.querySelector('#catalog');
+      const results = document.querySelector('#results');
+      const download = document.querySelector('#download');
+      const cards = Array.from(catalog.querySelectorAll('.card'));
+      let visible = [];
+
+      function updateCatalog() {
+        const terms = query.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        const ordered = [...cards];
+
+        if (sort.value) {
+          const direction = sort.value === 'asc' ? 1 : -1;
+          ordered.sort((a, b) => direction * (Number(a.dataset.price) - Number(b.dataset.price)));
+        }
+
+        visible = ordered.filter(card => {
+          const searchableText = `${card.querySelector('h3').textContent} ${card.dataset.category}`.toLowerCase();
+          const matchingCategory = !category.value || category.value === card.dataset.category;
+          card.hidden = !(matchingCategory && terms.every(term => searchableText.includes(term)));
+          catalog.append(card);
+          return !card.hidden;
+        });
+
+        results.textContent = visible.length
+          ? `${visible.length} of ${cards.length} products`
+          : 'No products match. Try another search or choose All categories.';
+        download.hidden = visible.length === 0;
+      }
+
+      function csvField(value) {
+        return '"' + String(value).replace(/"/g, '""') + '"';
+      }
+
+      function downloadCatalog() {
+        const headings = ['Product', 'Category', 'Estimated item price (USD)', 'CAFANS listing', 'Size', 'Color', 'Shipping estimate (USD)', 'QC notes'];
+        const rows = visible.map(card => [
+          card.querySelector('h3').textContent,
+          card.dataset.category,
+          card.dataset.price,
+          card.querySelector('a').href,
+          '', '', '', ''
+        ]);
+        const csv = [headings, ...rows].map(row => row.map(csvField).join(',')).join('\r\n');
+        const url = URL.createObjectURL(new Blob(['\uFEFF', csv], { type: 'text/csv;charset=utf-8' }));
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'lovegobuy-spreadsheet.csv';
+        document.body.append(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
+
+      filters.addEventListener('submit', event => event.preventDefault());
+      query.addEventListener('input', updateCatalog);
+      category.addEventListener('change', updateCatalog);
+      sort.addEventListener('change', updateCatalog);
+      download.addEventListener('click', downloadCatalog);
+      filters.hidden = false;
+      updateCatalog();
+    })();
+  </script>
+</body>
+</html>
